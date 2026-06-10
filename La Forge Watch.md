@@ -1,11 +1,12 @@
 # La Forge Watch
 
-La Forge Watch is an internal watch-capitalisation project.
+La Forge Watch is an internal share-capitalisation project.
 Its goal is to collect useful links shared in La Forge Slack channels, centralise them in Airtable, and prepare them for future search, enrichment and synthesis.
 
 The project is currently linked to the Lapin backlog feature:
 
 > Collecte automatique de la veille Slack
+> 
 > En tant que forgeron souhaitant capitaliser la veille interne, je veux que Lapin collecte automatiquement les liens partagés dans les canaux Slack de veille, afin de centraliser les ressources utiles, faciliter leur recherche et préparer leur analyse.
 
 ---
@@ -21,7 +22,7 @@ La Forge Watch aims to turn these shared links into a structured internal knowle
 In short:
 
 ```text
-Slack watch messages → Airtable database → future search, filtering, enrichment and synthesis
+Slack watch messages → Airtable database → future search & uses
 ```
 
 ---
@@ -34,13 +35,12 @@ flowchart LR
     B --> C[Collect messages with links]
     C --> D[Save raw records in Airtable]
 
-    D --> E[Experimental notebook]
+    E[Experimental notebook]
     E --> F[Read collected links]
-    F --> G[Scrape web content]
-    G --> H[Summarise and tag]
-    H --> I[Prepare enriched watch database]
+    F --> H[Summarise and tag]
+    H --> I[Prepare enriched database]
 
-    I --> J[Future Lapin usage]
+    J[Future Lapin usage]
 ```
 
 ---
@@ -67,27 +67,19 @@ It collects messages containing links and keeps the main contextual information:
 
 Collected Slack messages are saved into Airtable.
 
-Airtable is used as the first centralised watch database, making the collected resources easier to:
-
-* browse;
-* search;
-* filter;
-* enrich manually;
-* reuse later.
-
 ---
 
 ### Step 3 · OVH deployment
 
 The Slack → Airtable collector has been deployed on OVH.
 
-The deployed app can run the collection process without requiring manual notebook execution.
+The deployed app can run the collection process without requiring manual execution.
 
 The collection is incremental: the system avoids reprocessing the full Slack history every time and focuses on newly shared content.
 
 ---
 
-### Step 4 · Link enrichment experiment
+### Step 4 · Summerisation experiment
 
 A notebook experiment has been created to go further than raw collection.
 
@@ -138,8 +130,7 @@ Known limits:
 
 * only selected Slack channels are covered;
 * private channel management is not part of V1;
-* duplicated links may still require stronger control;
-* web scraping can fail on protected, paywalled or JavaScript-heavy websites;
+* visiting the articles on some sites can fail on protected or paywalled;
 * LLM-generated summaries need quality control;
 * failed enrichment should be clearly flagged for manual review.
 
@@ -159,27 +150,7 @@ Recommended next steps:
 
 ---
 
-## 8. V1 scope
-
-Included in V1:
-
-* collect Slack messages containing links;
-* store them in Airtable;
-* keep basic context;
-* run incrementally;
-* experiment with link enrichment.
-
-Not included in V1:
-
-* full automatic synthesis;
-* advanced classification;
-* publication to other platforms;
-* private channel rights management;
-* production-grade scraping infrastructure.
-
----
-
-## 9. Repository orientation
+## 8. . Repository orientation
 
 ```text
 deploy/
