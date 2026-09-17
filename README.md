@@ -69,9 +69,11 @@ Collected Slack messages are saved into Airtable.
 
 ---
 
-### Step 3 · OVH deployment
+### Step 3 · Deployment
 
-The Slack → Airtable collector has been deployed on OVH.
+The Slack → Airtable collector runs on the La Forge fleet, orchestrated by Coolify:
+a container kept alive by `docker-compose.yaml`, and a scheduled task that runs the
+collection every Sunday at 20:00 UTC. See `deploy/README.md`.
 
 The deployed app can run the collection process without requiring manual execution.
 

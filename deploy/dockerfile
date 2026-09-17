@@ -11,6 +11,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY slack_to_airtable.py .
+# Used by the Coolify scheduled task, not by the ENTRYPOINT below.
+COPY run.sh .
 
 # Default envs (override via docker run -e ...)
 ENV CHANNEL_PREFIX="share" \
