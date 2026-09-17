@@ -106,6 +106,36 @@ docker run --rm --env-file .env \
 ## 6️⃣ Security
 
 * `.env` should **never** be committed.
+* In production the variables live in Coolify, not in a file on the host.
+
+---
+
+## 7️⃣ Production deployment (Coolify)
+
+The collector runs on **redwin** as a Coolify *Docker Compose* application built
+from `docker-compose.yaml` at the root of this repository.
+
+The container does nothing on its own: its entrypoint is overridden to
+`sleep infinity`, and a Coolify **scheduled task** execs the real run into it
+every Sunday at 20:00 UTC:
+
+```text
+Frequency : 0 20 * * 0
+Command   : sh /app/run.sh
+Container : watch-slackmessage
+```
+
+`run.sh` runs the collector, then pushes the uptime-kuma heartbeat named by
+`HEARTBEAT_URL` with `status=up` or `status=down`, and exits with the collector's
+own status so a failure shows up in the task's execution log.
+
+Variables are set on the Coolify resource (`SLACK_BOT_TOKEN`, `AIRTABLE_TOKEN`,
+`AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_NAME`, optionally `CHANNEL_PREFIX`,
+`TEST_MODE`, `HEARTBEAT_URL`). To run the collection out of schedule:
+
+```bash
+docker exec "$(docker ps -q --filter label=coolify.resourceName=watch-slackmessage)" sh /app/run.sh
+```
 
 ---
 

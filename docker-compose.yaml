@@ -1,0 +1,22 @@
+# Deployed on Coolify (redwin) as a Docker Compose application.
+# The collector is a one-shot weekly run driven by a Coolify scheduled task, which
+# is a `docker exec` into a running container — so this service only has to stay
+# alive between runs, hence the entrypoint override.
+services:
+  watch-slackmessage:
+    build:
+      context: ./deploy
+      dockerfile: dockerfile
+    entrypoint: ["sleep", "infinity"]
+    restart: unless-stopped
+    environment:
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      AIRTABLE_TOKEN: ${AIRTABLE_TOKEN}
+      AIRTABLE_BASE_ID: ${AIRTABLE_BASE_ID}
+      AIRTABLE_TABLE_NAME: ${AIRTABLE_TABLE_NAME}
+      # Defaults are repeated here on purpose: a bare ${VAR} left unset resolves to
+      # an empty string and would override the image's own ENV rather than fall
+      # back to it.
+      CHANNEL_PREFIX: ${CHANNEL_PREFIX:-share}
+      TEST_MODE: ${TEST_MODE:-false}
+      HEARTBEAT_URL: ${HEARTBEAT_URL:-}
